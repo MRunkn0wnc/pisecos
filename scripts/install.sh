@@ -115,5 +115,5 @@ pip3 install llama-cpp-python || echo "AI dependencies optional, continuing..."
 read -p "Download AEGIS AI model now? (y/n) " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    bash /usr/local/pisecos/scripts/download_aegis_model.sh
+    bash $REPO_DIR/scripts/download_ai_model.sh
 fi
