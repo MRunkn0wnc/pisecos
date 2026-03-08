@@ -1,0 +1,7 @@
+{
+  "subdomains": ["subfinder"],
+  "ports": ["nmap"],
+  "directories": ["gobuster"],
+  "vulnerabilities": ["nikto"],
+  "sql": ["sqlmap"]
+}

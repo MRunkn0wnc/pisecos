@@ -1,0 +1,26 @@
+{
+ "nmap": {
+  "install": "sudo apt install nmap -y",
+  "command": "nmap -sV {target}"
+ },
+
+ "nikto": {
+  "install": "sudo apt install nikto -y",
+  "command": "nikto -h {target}"
+ },
+
+ "gobuster": {
+  "install": "sudo apt install gobuster -y",
+  "command": "gobuster dir -u {target} -w /usr/share/wordlists/dirb/common.txt"
+ },
+
+ "nuclei": {
+  "install": "go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest",
+  "command": "nuclei -u {target}"
+ },
+
+ "subfinder": {
+  "install": "go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest && sudo mv ~/go/bin/subfinder /usr/local/bin/",
+  "command": "subfinder -d {target}"
+  }
+}
