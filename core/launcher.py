@@ -34,18 +34,25 @@ class BootLauncher:
         logging.info("Directories verified")
         
     def launch(self):
-        """Launch appropriate interface"""
-        has_display = os.environ.get('DISPLAY') or os.environ.get('WAYLAND_DISPLAY')
-        
-        if has_display:
-            try:
-                from gui.dashboard import main
-                main()
-            except:
-                os.system(f"python3 {self.repo_root}/gui/main_gui.py")
-        else:
-            from core.controller import main
-            main()
+    """Force GUI mode"""
+    logging.info("Launching GUI (forced mode)")
+    
+    # Set display if not set
+    if not os.environ.get('DISPLAY'):
+        os.environ['DISPLAY'] = ':0'
+    
+    try:
+        # Try PyQt5 GUI
+        from gui.pro_dashboard import main
+        main()
+    except Exception as e:
+        logging.error(f"GUI failed: {e}")
+        # Fallback to tkinter
+        try:
+            os.system(f"python3 {self.repo_root}/gui/main_gui.py")
+        except:
+            # Last resort - show error
+            print(f"GUI failed: {e}")
     
     def run(self):
         logging.info("PiSecOS starting")

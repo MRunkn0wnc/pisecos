@@ -4,7 +4,7 @@ Updated recon engine with auto-tool download
 """
 
 import sys
-from tool_engine import ToolEngine
+from core.tool_engine import ToolEngine
 
 def run_recon(target):
     """
