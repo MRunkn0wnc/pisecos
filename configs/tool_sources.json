@@ -1,0 +1,62 @@
+{
+    "known_tools": {
+        "nmap": {
+            "github": "nmap/nmap",
+            "type": "c",
+            "arm_support": true
+        },
+        "sqlmap": {
+            "github": "sqlmapproject/sqlmap",
+            "type": "python",
+            "arm_support": true
+        },
+        "hydra": {
+            "github": "vanhauser-thc/thc-hydra",
+            "type": "c",
+            "arm_support": true
+        },
+        "john": {
+            "github": "openwall/john",
+            "type": "c",
+            "arm_support": true
+        },
+        "metasploit": {
+            "github": "rapid7/metasploit-framework",
+            "type": "ruby",
+            "arm_support": true
+        },
+        "nikto": {
+            "github": "sullo/nikto",
+            "type": "perl",
+            "arm_support": true
+        },
+        "gobuster": {
+            "github": "OJ/gobuster",
+            "type": "go",
+            "arm_support": true
+        },
+        "ffuf": {
+            "github": "ffuf/ffuf",
+            "type": "go",
+            "arm_support": true
+        },
+        "wfuzz": {
+            "github": "xmendez/wfuzz",
+            "type": "python",
+            "arm_support": true
+        },
+        "dirb": {
+            "github": "v0re/dirb",
+            "type": "c",
+            "arm_support": true
+        }
+    },
+    "search_terms": {
+        "web_scanner": ["gobuster", "ffuf", "dirb", "nikto"],
+        "network_scanner": ["nmap", "masscan"],
+        "vulnerability_scanner": ["nuclei", "nikto"],
+        "password_cracker": ["john", "hydra"],
+        "sql_injection": ["sqlmap"],
+        "exploitation": ["metasploit", "searchsploit"]
+    }
+}

@@ -1,8 +1,9 @@
 import sys
-import subprocess
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+
+from core.aegis import execute
 
 
 class Dashboard(QMainWindow):
@@ -11,99 +12,106 @@ class Dashboard(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("PiSecOS")
-        self.setGeometry(0,0,1000,650)
+        self.setGeometry(0, 0, 1200, 700)
 
         self.setStyleSheet("""
         QMainWindow {
-            background-color: #0d021a;
+            background-color:#0d021a;
         }
 
         QLabel {
-            color: #c084fc;
-            font-size: 22px;
-        }
-
-        QLineEdit {
-            background-color: #1b0633;
-            border: 2px solid #8b5cf6;
-            padding: 6px;
-            color: white;
-        }
-
-        QPushButton {
-            background-color: #8b5cf6;
-            color: black;
-            border-radius: 8px;
-            padding: 10px;
-            font-weight: bold;
-        }
-
-        QPushButton:hover {
-            background-color: #a855f7;
+            color:#c084fc;
+            font-size:20px;
         }
 
         QTextEdit {
-            background-color: black;
-            color: #39ff14;
-            font-family: monospace;
+            background-color:black;
+            color:#39ff14;
+            font-family:monospace;
+        }
+
+        QLineEdit {
+            background:#1b0633;
+            color:white;
+            border:2px solid #8b5cf6;
+            padding:6px;
+        }
+
+        QPushButton {
+            background:#8b5cf6;
+            padding:8px;
+            font-weight:bold;
+        }
+
+        QPushButton:hover {
+            background:#a855f7;
         }
         """)
 
-        layout = QVBoxLayout()
+        main_layout = QVBoxLayout()
 
         title = QLabel("PiSecOS AI SECURITY CONSOLE")
         title.setAlignment(Qt.AlignCenter)
 
         glow = QGraphicsDropShadowEffect()
-        glow.setBlurRadius(30)
+        glow.setBlurRadius(25)
         glow.setColor(QColor("#a855f7"))
-        glow.setOffset(0)
         title.setGraphicsEffect(glow)
 
-        self.target = QLineEdit()
-        self.target.setPlaceholderText("Enter Target Domain")
+        main_layout.addWidget(title)
 
-        self.scan_button = QPushButton("START RECON")
-        self.scan_button.clicked.connect(self.start_scan)
+        panels = QHBoxLayout()
 
+        # AI assistant panel
+        self.assistant = QTextEdit()
+        self.assistant.setReadOnly(True)
+        self.assistant.append("AEGIS AI Assistant Ready\n")
+        self.assistant.append("Example commands:")
+        self.assistant.append("scan example.com")
+        self.assistant.append("subdomains example.com")
+        self.assistant.append("ports example.com")
+
+        panels.addWidget(self.assistant)
+
+        # terminal panel
         self.terminal = QTextEdit()
         self.terminal.setReadOnly(True)
 
-        layout.addWidget(title)
-        layout.addSpacing(20)
-        layout.addWidget(self.target)
-        layout.addWidget(self.scan_button)
-        layout.addSpacing(10)
-        layout.addWidget(self.terminal)
+        panels.addWidget(self.terminal)
+
+        main_layout.addLayout(panels)
+
+        # command input
+        self.command_input = QLineEdit()
+        self.command_input.setPlaceholderText("Enter command...")
+        self.command_input.returnPressed.connect(self.run_command)
+
+        main_layout.addWidget(self.command_input)
 
         container = QWidget()
-        container.setLayout(layout)
+        container.setLayout(main_layout)
 
         self.setCentralWidget(container)
 
-    def start_scan(self):
+    def run_command(self):
 
-        target = self.target.text()
+        command = self.command_input.text()
 
-        if not target:
+        if not command:
             return
 
-        self.terminal.append(f"[+] Starting recon for {target}\n")
+        self.terminal.append(f"> {command}")
 
-        self.process = QProcess()
-        self.process.readyReadStandardOutput.connect(self.handle_output)
+        result = execute(command)
 
-        cmd = f"python core/recon_engine.py {target}"
+        self.terminal.append(result)
 
-        self.process.start("cmd", ["/c", cmd])
-
-    def handle_output(self):
-
-        data = self.process.readAllStandardOutput().data().decode()
-        self.terminal.append(data)
+        self.command_input.clear()
 
 
 app = QApplication(sys.argv)
+
 window = Dashboard()
 window.showFullScreen()
+
 sys.exit(app.exec_())
