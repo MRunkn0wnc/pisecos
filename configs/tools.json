@@ -1,26 +1,301 @@
 {
- "nmap": {
-  "install": "sudo apt install nmap -y",
-  "command": "nmap -sV {target}"
- },
-
- "nikto": {
-  "install": "sudo apt install nikto -y",
-  "command": "nikto -h {target}"
- },
-
- "gobuster": {
-  "install": "sudo apt install gobuster -y",
-  "command": "gobuster dir -u {target} -w /usr/share/wordlists/dirb/common.txt"
- },
-
- "nuclei": {
-  "install": "go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest",
-  "command": "nuclei -u {target}"
- },
-
- "subfinder": {
-  "install": "go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest && sudo mv ~/go/bin/subfinder /usr/local/bin/",
-  "command": "subfinder -d {target}"
-  }
+    "known_tools": {
+        "nmap": {
+            "github": "nmap/nmap",
+            "type": "c",
+            "arm_support": true,
+            "category": "scanner",
+            "description": "Network discovery and port scanning"
+        },
+        "sqlmap": {
+            "github": "sqlmapproject/sqlmap",
+            "type": "python",
+            "arm_support": true,
+            "category": "web",
+            "description": "SQL injection automation"
+        },
+        "hydra": {
+            "github": "vanhauser-thc/thc-hydra",
+            "type": "c",
+            "arm_support": true,
+            "category": "cracker",
+            "description": "Password brute-forcing"
+        },
+        "john": {
+            "github": "openwall/john",
+            "type": "c",
+            "arm_support": true,
+            "category": "cracker",
+            "description": "Password cracking"
+        },
+        "metasploit": {
+            "github": "rapid7/metasploit-framework",
+            "type": "ruby",
+            "arm_support": true,
+            "category": "exploitation",
+            "description": "Exploit development framework"
+        },
+        "nikto": {
+            "github": "sullo/nikto",
+            "type": "perl",
+            "arm_support": true,
+            "category": "web",
+            "description": "Web server scanner"
+        },
+        "gobuster": {
+            "github": "OJ/gobuster",
+            "type": "go",
+            "arm_support": true,
+            "category": "web",
+            "description": "Directory/file brute-forcing"
+        },
+        "ffuf": {
+            "github": "ffuf/ffuf",
+            "type": "go",
+            "arm_support": true,
+            "category": "web",
+            "description": "Fast web fuzzer"
+        },
+        "wfuzz": {
+            "github": "xmendez/wfuzz",
+            "type": "python",
+            "arm_support": true,
+            "category": "web",
+            "description": "Web application brute-forcer"
+        },
+        "dirb": {
+            "github": "v0re/dirb",
+            "type": "c",
+            "arm_support": true,
+            "category": "web",
+            "description": "Web content scanner"
+        },
+        "masscan": {
+            "github": "robertdavidgraham/masscan",
+            "type": "c",
+            "arm_support": true,
+            "category": "scanner",
+            "description": "Mass IP port scanner"
+        },
+        "rustscan": {
+            "github": "RustScan/RustScan",
+            "type": "rust",
+            "arm_support": true,
+            "category": "scanner",
+            "description": "Fast port scanner"
+        },
+        "subfinder": {
+            "github": "projectdiscovery/subfinder",
+            "type": "go",
+            "arm_support": true,
+            "category": "recon",
+            "description": "Subdomain discovery"
+        },
+        "httpx": {
+            "github": "projectdiscovery/httpx",
+            "type": "go",
+            "arm_support": true,
+            "category": "recon",
+            "description": "HTTP probing toolkit"
+        },
+        "nuclei": {
+            "github": "projectdiscovery/nuclei",
+            "type": "go",
+            "arm_support": true,
+            "category": "scanner",
+            "description": "Vulnerability scanner"
+        },
+        "naabu": {
+            "github": "projectdiscovery/naabu",
+            "type": "go",
+            "arm_support": true,
+            "category": "scanner",
+            "description": "Fast port scanner"
+        },
+        "chaos": {
+            "github": "projectdiscovery/chaos-client",
+            "type": "go",
+            "arm_support": true,
+            "category": "recon",
+            "description": "Chaos dataset client"
+        },
+        "dnsx": {
+            "github": "projectdiscovery/dnsx",
+            "type": "go",
+            "arm_support": true,
+            "category": "recon",
+            "description": "DNS toolkit"
+        },
+        "interactsh": {
+            "github": "projectdiscovery/interactsh",
+            "type": "go",
+            "arm_support": true,
+            "category": "exfiltration",
+            "description": "OOB interaction server"
+        },
+        "amass": {
+            "github": "owasp-amass/amass",
+            "type": "go",
+            "arm_support": true,
+            "category": "recon",
+            "description": "In-depth DNS enumeration"
+        },
+        "aquatone": {
+            "github": "michenriksen/aquatone",
+            "type": "go",
+            "arm_support": true,
+            "category": "web",
+            "description": "Website screenshot tool"
+        },
+        "eyewitness": {
+            "github": "redsiege/eyewitness",
+            "type": "python",
+            "arm_support": true,
+            "category": "web",
+            "description": "Web screenshot tool"
+        },
+        "wpscan": {
+            "github": "wpscanteam/wpscan",
+            "type": "ruby",
+            "arm_support": true,
+            "category": "web",
+            "description": "WordPress scanner"
+        },
+        "droopescan": {
+            "github": "droope/droopescan",
+            "type": "python",
+            "arm_support": true,
+            "category": "web",
+            "description": "Drupal/Joomla scanner"
+        },
+        "whatweb": {
+            "github": "urbanadventurer/WhatWeb",
+            "type": "ruby",
+            "arm_support": true,
+            "category": "web",
+            "description": "Web technology detector"
+        },
+        "wappalyzer": {
+            "github": "aliasio/wappalyzer",
+            "type": "javascript",
+            "arm_support": true,
+            "category": "web",
+            "description": "Web technology profiler"
+        },
+        "searchsploit": {
+            "github": "offensive-security/exploitdb",
+            "type": "bash",
+            "arm_support": true,
+            "category": "exploitation",
+            "description": "Exploit database search"
+        },
+        "enum4linux": {
+            "github": "portcullislabs/enum4linux",
+            "type": "perl",
+            "arm_support": true,
+            "category": "recon",
+            "description": "Windows/Samba enumeration"
+        },
+        "smbclient": {
+            "github": "",
+            "type": "system",
+            "arm_support": true,
+            "category": "recon",
+            "description": "SMB client (pre-installed)"
+        },
+        "impacket": {
+            "github": "fortra/impacket",
+            "type": "python",
+            "arm_support": true,
+            "category": "exploitation",
+            "description": "Network protocols toolkit"
+        },
+        "bloodhound": {
+            "github": "bloodhoundad/bloodhound",
+            "type": "javascript",
+            "arm_support": false,
+            "category": "recon",
+            "description": "Active Directory mapping"
+        },
+        "responder": {
+            "github": "lgandx/responder",
+            "type": "python",
+            "arm_support": true,
+            "category": "exploitation",
+            "description": "LLMNR/NBT-NS responder"
+        },
+        "bettercap": {
+            "github": "bettercap/bettercap",
+            "type": "go",
+            "arm_support": true,
+            "category": "exploitation",
+            "description": "MITM framework"
+        },
+        "beef": {
+            "github": "beefproject/beef",
+            "type": "ruby",
+            "arm_support": true,
+            "category": "exploitation",
+            "description": "Browser exploitation"
+        },
+        "yersinia": {
+            "github": "",
+            "type": "system",
+            "arm_support": true,
+            "category": "exploitation",
+            "description": "Layer 2 attacks"
+        },
+        "macchanger": {
+            "github": "",
+            "type": "system",
+            "arm_support": true,
+            "category": "utility",
+            "description": "MAC address changer"
+        },
+        "wifite": {
+            "github": "kimocoder/wifite2",
+            "type": "python",
+            "arm_support": true,
+            "category": "wireless",
+            "description": "Wireless auditing"
+        },
+        "aircrack-ng": {
+            "github": "aircrack-ng/aircrack-ng",
+            "type": "c",
+            "arm_support": true,
+            "category": "wireless",
+            "description": "WiFi security suite"
+        },
+        "kismet": {
+            "github": "kismetwireless/kismet",
+            "type": "c",
+            "arm_support": true,
+            "category": "wireless",
+            "description": "Wireless detector"
+        },
+        "bluetoothctl": {
+            "github": "",
+            "type": "system",
+            "arm_support": true,
+            "category": "bluetooth",
+            "description": "Bluetooth controller"
+        },
+        "crackle": {
+            "github": "mikeryan/crackle",
+            "type": "c",
+            "arm_support": true,
+            "category": "bluetooth",
+            "description": "BLE encryption cracker"
+        }
+    },
+    "categories": {
+        "recon": ["subfinder", "httpx", "amass", "dnsx", "enum4linux", "chaos"],
+        "scanner": ["nmap", "masscan", "rustscan", "naabu", "nuclei"],
+        "web": ["gobuster", "ffuf", "wfuzz", "dirb", "nikto", "wpscan", "droopescan", "whatweb", "wappalyzer", "aquatone", "eyewitness"],
+        "cracker": ["john", "hydra"],
+        "exploitation": ["metasploit", "searchsploit", "impacket", "responder", "bettercap", "beef", "yersinia"],
+        "wireless": ["wifite", "aircrack-ng", "kismet"],
+        "bluetooth": ["bluetoothctl", "crackle"],
+        "utility": ["macchanger"]
+    }
 }
