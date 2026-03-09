@@ -9,55 +9,54 @@ import sys
 import logging
 from pathlib import Path
 
-# Add repo root to path
 repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, repo_root)
 
 # Setup logging
+log_dir = "/var/log/pisecos"
+Path(log_dir).mkdir(parents=True, exist_ok=True)
+
 logging.basicConfig(
-    filename='/var/log/pisecos/boot.log',
+    filename=f"{log_dir}/boot.log",
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
+
 class BootLauncher:
+
     def __init__(self):
         self.repo_root = repo_root
-        self.tools_dir = os.path.join(repo_root, 'tools')
-        self.scans_dir = os.path.join(repo_root, 'scans')
-        self.configs_dir = os.path.join(repo_root, 'configs')
-        
+        self.tools_dir = os.path.join(repo_root, "tools")
+        self.scans_dir = os.path.join(repo_root, "scans")
+        self.reports_dir = os.path.join(repo_root, "reports")
+
     def setup(self):
         """Ensure directories exist"""
         Path(self.tools_dir).mkdir(exist_ok=True)
         Path(self.scans_dir).mkdir(exist_ok=True)
+        Path(self.reports_dir).mkdir(exist_ok=True)
         logging.info("Directories verified")
-        
+
     def launch(self):
-    """Force GUI mode"""
-    logging.info("Launching GUI (forced mode)")
-    
-    # Set display if not set
-    if not os.environ.get('DISPLAY'):
-        os.environ['DISPLAY'] = ':0'
-    
+    """Launch lightweight GUI"""
+
+    logging.info("Launching PiSecOS Compact GUI")
+
     try:
-        # Try PyQt5 GUI
-        from gui.pro_dashboard import main
-        main()
+        os.system(f"python3 {self.repo_root}/gui/main_gui.py")
+
     except Exception as e:
-        logging.error(f"GUI failed: {e}")
-        # Fallback to tkinter
-        try:
-            os.system(f"python3 {self.repo_root}/gui/main_gui.py")
-        except:
-            # Last resort - show error
-            print(f"GUI failed: {e}")
-    
+
+        logging.error(f"GUI launch failed: {e}")
+
+        print("Failed to start GUI")
+
     def run(self):
         logging.info("PiSecOS starting")
         self.setup()
         self.launch()
+
 
 if __name__ == "__main__":
     launcher = BootLauncher()
